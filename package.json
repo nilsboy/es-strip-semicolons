@@ -1,0 +1,30 @@
+{
+  "name": "es-strip-semicolons",
+  "version": "1.0.0",
+  "description": "Strip unnecessary semicolons from Ecmascript code.",
+  "main": "index.js",
+  "bin": "./bin/cli.js",
+  "scripts": {
+    "test": "mocha"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/nilsboy/es-strip-semicolons.git"
+  },
+  "keywords": [
+    "semicolons",
+    "javascript",
+    "formatter",
+    "beautifier"
+  ],
+  "author": "Nils Boysen",
+  "license": "ISC",
+  "dependencies": {
+    "get-stdin": "^4.0.1",
+    "meow": "^3.4.2",
+    "rocambole": "^0.7.0"
+  },
+  "devDependencies": {
+    "mocha": "^2.3.3"
+  }
+}
