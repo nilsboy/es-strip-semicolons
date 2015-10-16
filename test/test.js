@@ -62,3 +62,7 @@ it('should leave a semicolon infront of - at the start of a line', function () {
 it('should leave a semicolon infront of + at the start of a line', function () {
   assert.equal(stripSemicolons('1\n;+1').toString(), '1\n;+1')
 })
+
+it('should leave semicolons inside of for statement', function () {
+  assert.equal(stripSemicolons('for (var i = 0; i < 10; i ++){}').toString(), 'for (var i = 0; i < 10; i ++){}')
+})

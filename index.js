@@ -5,11 +5,13 @@
 var _ = require('lodash')
 var rocambole = require('rocambole')
 
-var START_OF_LINE_NEED_PREFIX = [ '(', '[', '-', '+' ]
+var NEED_PREFIX_AT_START_OF_LINE = [ '(', '[', '-', '+' ]
 
 module.exports = function (src) {
   return rocambole.moonwalk(src, function (node) {
     var token = node.endToken
+
+    // semicolons inside a for loop don't seem to pop up as tokens
 
     if (token.type !== 'Punctuator') return
     if (token.value !== ';') return
@@ -23,7 +25,7 @@ module.exports = function (src) {
     }
 
     if (!prevToken || prevToken.type === 'LineBreak') {
-      if (~START_OF_LINE_NEED_PREFIX.indexOf(nextToken.value)) {
+      if (~NEED_PREFIX_AT_START_OF_LINE.indexOf(nextToken.value)) {
         return
       }
       token.value = ''
