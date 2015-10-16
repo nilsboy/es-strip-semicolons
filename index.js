@@ -5,6 +5,8 @@
 var _ = require('lodash')
 var rocambole = require('rocambole')
 
+var START_OF_LINE_NEED_PREFIX = [ '(', '[', '-', '+' ]
+
 module.exports = function (src) {
   return rocambole.moonwalk(src, function (node) {
     var token = node.endToken
@@ -21,7 +23,7 @@ module.exports = function (src) {
     }
 
     if (!prevToken || prevToken.type === 'LineBreak') {
-      if (nextToken.value === '(' || nextToken.value === '[') {
+      if (~START_OF_LINE_NEED_PREFIX.indexOf(nextToken.value)) {
         return
       }
       token.value = ''

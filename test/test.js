@@ -55,3 +55,10 @@ it('should leave a semicolon infront of [ at the start of a line preceded by whi
 it('should leave a semicolon infront of ( at the start of a line preceded by white space', function () {
   assert.equal(stripSemicolons('1\n   ;(1)').toString(), '1\n   ;(1)')
 })
+
+it('should leave a semicolon infront of - at the start of a line', function () {
+  assert.equal(stripSemicolons('1\n;-1').toString(), '1\n;-1')
+})
+it('should leave a semicolon infront of + at the start of a line', function () {
+  assert.equal(stripSemicolons('1\n;+1').toString(), '1\n;+1')
+})
