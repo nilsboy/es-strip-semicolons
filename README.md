@@ -20,7 +20,7 @@ Examples,
   $ cat src/app.js | es-strip-semicolons > dist/app.js
 ```
 
-## esformatter
+## Use with [esformatter](https://github.com/millermedeiros/esformatter)
 
 ```json
 {
