@@ -1,4 +1,5 @@
 #!/usr/bin/env node
+
 'use strict'
 
 var fs = require('fs')
@@ -8,12 +9,12 @@ var strip = require('es-strip-semicolons')
 
 var cli = meow([
   'Usage',
-  '  $ strip-debug <input file> > <output file>',
-  '  $ cat <input file> | strip-debug > <output file>',
+  '  $ es-strip-semicolons <input file> > <output file>',
+  '  $ cat <input file> | es-strip-semicolons > <output file>',
   '',
   'Examples',
-  '  $ strip-debug src/app.js > dist/app.js',
-  '  $ cat src/app.js | strip-debug > dist/app.js'
+  '  $ es-strip-semicolons src/app.js > dist/app.js',
+  '  $ cat src/app.js | es-strip-semicolons > dist/app.js'
 ])
 
 if (process.stdin.isTTY) {

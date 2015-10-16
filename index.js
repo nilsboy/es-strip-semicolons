@@ -2,31 +2,70 @@
 
 'use strict'
 
+var _ = require('lodash')
 var rocambole = require('rocambole')
 
 module.exports = function (src) {
   return rocambole.moonwalk(src, function (node) {
-    var endToken = node.endToken
+    var token = node.endToken
 
-    if (endToken.type !== 'Punctuator') return
-    if (endToken.value !== ';') return
-    if (!endToken.prev) return
-    if (endToken.prev.type === 'LineBreak') return
+    if (token.type !== 'Punctuator') return
+    if (token.value !== ';') return
 
-    if (!endToken.next) {
-      endToken.value = ''
+    var prevToken = _findPrevNonWhiteSpace(token)
+    var nextToken = _findNextNonWhiteSpace(token)
+
+    if (!prevToken && !nextToken) {
+      token.value = ''
       return
     }
 
-    var nextToken = _findNextNonWhiteSpace(endToken)
-
-    if (nextToken.type === 'LineComment' || nextToken.type === 'LineBreak') {
-      endToken.value = ''
+    if (!prevToken || prevToken.type === 'LineBreak') {
+      if (nextToken.value === '(' || nextToken.value === '[') {
+        return
+      }
+      token.value = ''
       return
     }
-    endToken.type = 'LineBreak'
-    endToken.value = '\n'
+
+    if (!nextToken) {
+      token.value = ''
+      return
+    }
+
+    if (nextToken.type === 'LineComment' || nextToken.type === 'LineBreak' || nextToken.value === '}') {
+      token.value = ''
+      return
+    }
+
+    var indentation = _findIndentation(token)
+
+    if (indentation) {
+      insertIndentationAfter(token, indentation)
+    }
+
+    token.type = 'LineBreak'
+    token.value = '\n'
   })
+}
+
+function insertIndentationAfter (token, indentation) {
+  var newIndentation
+  if (token.next.type === 'WhiteSpace') {
+    newIndentation = token.next
+    _.extend(newIndentation.range, indentation.range)
+    newIndentation.value = _.repeat(' ', indentation.range[1])
+  } else {
+    newIndentation = {}
+    _.extend(newIndentation, indentation,
+      {
+        prev: token,
+        next: token.next
+      }
+    )
+    token.next.prev = newIndentation
+    token.next = newIndentation
+  }
 }
 
 function _findNextNonWhiteSpace (token) {
@@ -34,5 +73,29 @@ function _findNextNonWhiteSpace (token) {
     token = token.next
     if (token.type !== 'WhiteSpace') return token
   }
+}
+
+function _findPrevNonWhiteSpace (token) {
+  while (token.prev) {
+    token = token.prev
+    if (token.type !== 'WhiteSpace') return token
+  }
+}
+
+function _findIndentation (token) {
+  var indentation
+  while (token.prev) {
+    token = token.prev
+    if (token.type === 'WhiteSpace') {
+      indentation = token
+      continue
+    }
+    if (token.type === 'LineBreak') {
+      return indentation
+    }
+    indentation = undefined
+  }
+
+  return indentation
 }
 

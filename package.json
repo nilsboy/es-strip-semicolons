@@ -1,6 +1,6 @@
 {
   "name": "es-strip-semicolons",
-  "version": "1.0.1",
+  "version": "1.0.3",
   "description": "Strip unnecessary semicolons from Ecmascript code.",
   "main": "index.js",
   "bin": "./bin/cli.js",
@@ -21,6 +21,7 @@
   "license": "ISC",
   "dependencies": {
     "get-stdin": "^4.0.1",
+    "lodash": "^3.10.1",
     "meow": "^3.4.2",
     "rocambole": "^0.7.0"
   },
