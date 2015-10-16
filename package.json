@@ -15,7 +15,8 @@
     "semicolons",
     "javascript",
     "formatter",
-    "beautifier"
+    "beautifier",
+    "esformatter-plugin"
   ],
   "author": "Nils Boysen",
   "license": "ISC",
