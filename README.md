@@ -2,6 +2,12 @@
 
 > Strip unnecessary semicolons from Ecmascript code.
 
+## Installation
+
+```sh
+    npm install es-strip-semicolons
+```
+
 ## CLI
 
 ```sh
