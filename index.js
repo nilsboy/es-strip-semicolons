@@ -1,5 +1,11 @@
 #!/usr/bin/env node
 
+/*
+ * See also:
+ * https://docs.npmjs.com/misc/coding-style#semicolons
+ * Switch statement semicolons should be ok to replace.
+ */
+
 'use strict'
 
 var _ = require('lodash')
