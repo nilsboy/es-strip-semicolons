@@ -63,6 +63,15 @@ it('should leave a semicolon infront of + at the start of a line', function () {
   assert.equal(stripSemicolons('1\n;+1').toString(), '1\n;+1')
 })
 
-it('should leave semicolons inside of for statement', function () {
+it('should leave semicolons inside a for statement', function () {
   assert.equal(stripSemicolons('for (var i = 0; i < 10; i ++){}').toString(), 'for (var i = 0; i < 10; i ++){}')
 })
+
+it('should strip a semicolon of a while statement', function () {
+  assert.equal(stripSemicolons('while(1) { 1 ; 1 };').toString(), 'while(1) { 1 \n 1 }')
+})
+
+it('should leave a semicolon of an empty while statement', function () {
+  assert.equal(stripSemicolons('while(1);;').toString(), 'while(1);')
+})
+
