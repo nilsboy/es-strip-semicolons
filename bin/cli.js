@@ -17,14 +17,16 @@ var cli = meow([
   '  $ cat src/app.js | es-strip-semicolons > dist/app.js'
 ])
 
+if(cli.input[0]) {
+  process.stdout.write(strip(fs.readFileSync(cli.input[0], 'utf8')).toString())
+  process.exit(0)
+}
+
 if (process.stdin.isTTY) {
-  if (!cli.input[0]) {
     console.error('Input file required')
     process.exit(1)
-  }
-  process.stdout.write(strip(fs.readFileSync(cli.input[0], 'utf8')).toString())
-} else {
-  stdin(function (data) {
-    process.stdout.write(strip(data).toString())
-  })
 }
+
+stdin(function (data) {
+  process.stdout.write(strip(data).toString())
+})
