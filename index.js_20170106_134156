@@ -13,8 +13,12 @@ var rocambole = require('rocambole')
 
 var NEED_PREFIX_AT_START_OF_LINE = ['(', '[', '-', '+']
 
+
 module.exports = function (src) {
-  return rocambole.moonwalk(src, function (node) {
+  const ast = rocambole.parse(src)
+  // return rocambole.moonwalk(src, function (node) {
+  return rocambole.recursive(ast, function (node) {
+// function recursiveWalk(node, fn, parent, prev, next){
     var token = node.endToken
 
     // semicolons inside a for loop don't seem to pop up as tokens
@@ -70,18 +74,20 @@ module.exports = function (src) {
 function insertIndentationAfter (token, indentation) {
   var newIndentation
   if (token.next.type === 'WhiteSpace') {
-    token.next.value = ''
+    newIndentation = token.next
+    _.extend(newIndentation.range, indentation.range)
+    newIndentation.value = _.repeat(' ', indentation.range[1])
+  } else {
+    newIndentation = {}
+    _.extend(newIndentation, indentation,
+      {
+        prev: token,
+        next: token.next
+      }
+    )
+    token.next.prev = newIndentation
+    token.next = newIndentation
   }
-
-  newIndentation = {}
-  _.extend(newIndentation, indentation,
-    {
-      prev: token,
-      next: token.next
-    }
-  )
-  token.next.prev = newIndentation
-  token.next = newIndentation
 }
 
 function _findNextNonWhiteSpace (token) {

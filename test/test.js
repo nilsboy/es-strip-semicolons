@@ -13,6 +13,10 @@ it('should replace a semicolon with a line break preserving indentation', () =>
   assert.equal(format('   1;1').toString(), '   1\n   1')
 )
 
+it('should replace a semicolon with a line break preserving indentation 2',
+  () => assert.equal(format('111;   2; 3').toString(), '111\n   2\n   3')
+)
+
 it('should replace a semicolon with a line break removing semicolon trailing white space', () =>
   assert.equal(format('   1;  1').toString(), '   1\n   1')
 )
