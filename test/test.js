@@ -87,7 +87,7 @@ it('should leave semicolons inside a for statement', () =>
 )
 
 it('should strip a semicolon of a while statement', () =>
-  assert.equal(format('while(1) { 1 ; 1 };').toString(), 'while(1) { 1 \n 1 }')
+  assert.equal(format('while(1) { 1 ; 1 };').toString(), 'while(1) { 1 \n1 }')
 )
 
 it('should leave a semicolon of an empty while statement', () =>

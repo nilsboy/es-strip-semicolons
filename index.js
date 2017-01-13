@@ -29,7 +29,7 @@ module.exports = function (src) {
       return
     }
 
-    if (token.next.type === 'WhiteSpace') {
+    if (token.next && token.next.type === 'WhiteSpace') {
       if(token.next.next
         && token.next.next.value != '}'
         && token.next.next.type != 'LineComment'
