@@ -29,6 +29,15 @@ module.exports = function (src) {
       return
     }
 
+    if (token.next.type === 'WhiteSpace') {
+      if(token.next.next
+        && token.next.next.value != '}'
+        && token.next.next.type != 'LineComment'
+      ) {
+        token.next.value = ''
+      }
+    }
+
     var prevToken = _findPrevNonWhiteSpace(token)
     var nextToken = _findNextNonWhiteSpace(token)
 
@@ -68,12 +77,7 @@ module.exports = function (src) {
 }
 
 function insertIndentationAfter (token, indentation) {
-  var newIndentation
-  if (token.next.type === 'WhiteSpace') {
-    token.next.value = ''
-  }
-
-  newIndentation = {}
+  var newIndentation = {}
   _.extend(newIndentation, indentation,
     {
       prev: token,

@@ -14,7 +14,15 @@ it('should replace a semicolon with a line break preserving indentation', () =>
 )
 
 it('should keep indent even with a semicolon followed by whitespace',
-  () => assert.equal(format('111;   2; 3').toString(), '111\n   2\n   3')
+  () => assert.equal(format('111;   2; 3').toString(), '111\n2\n3')
+)
+
+it('should keep indentation after line breaks',
+  () => assert.equal(format('111;\n   2; 3').toString(), '111\n   2\n   3')
+)
+
+it('should remove indent following whitespace',
+  () => assert.equal(format('111; 2').toString(), '111\n2')
 )
 
 it('should replace a semicolon with a line break removing semicolon trailing white space', () =>
@@ -34,7 +42,7 @@ it('should strip a semicolon that is followed by a line break', () =>
 )
 
 it('should strip a semicolon that is followed by white space and a line break', () =>
-  assert.equal(format('1;   \n1').toString(), '1   \n1')
+  assert.equal(format('1;   \n1').toString(), '1\n1')
 )
 
 it('should strip a semicolon that is followed by a LineComment', () =>
