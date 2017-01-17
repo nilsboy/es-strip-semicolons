@@ -82,8 +82,12 @@ it('should strip a semicolon infront of // at the start of a line', () =>
   assert.equal(format('1\n;// comment').toString(), '1\n// comment')
 )
 
-it('should leave semicolons inside a for statement', () =>
+it('should leave semicolons inside a for statement when using var', () =>
   assert.equal(format('for (var i = 0; i < 10; i ++){}').toString(), 'for (var i = 0; i < 10; i ++){}')
+)
+
+it('should leave semicolons inside a for statement when using let', () =>
+  assert.equal(format('for (let i = 0; i < 10; i++){}').toString(), 'for (let i = 0; i < 10; i++){}')
 )
 
 it('should strip a semicolon of a while statement', () =>
@@ -92,5 +96,13 @@ it('should strip a semicolon of a while statement', () =>
 
 it('should leave a semicolon of an empty while statement', () =>
   assert.equal(format('while(1);;').toString(), 'while(1);')
+)
+
+it('should leave a semicolon of an empty for statement', () =>
+  assert.equal(format('for(;;);').toString(), 'for(;;);')
+)
+
+it('should leave a semicolon of an empty if statement', () =>
+  assert.equal(format('if(1); 1').toString(), 'if(1); 1')
 )
 

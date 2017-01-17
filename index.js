@@ -22,10 +22,23 @@ module.exports = function (src) {
     if (token.type !== 'Punctuator') return
     if (token.value !== ';') return
 
-    if (node.type === 'EmptyStatement' && node.parent && node.parent.type === 'WhileStatement') {
+    if(node.parent && node.parent.type === `ForStatement`) {
       return
     }
-    if (node.type === 'WhileStatement') {
+
+    if(token._keep) {
+      return
+    }
+
+    if(node.type === 'ForStatement') {
+      token._keep = true
+    }
+
+    if (node.type === 'WhileStatement'
+      || node.type === 'ForStatement'
+      || node.type === 'EmptyStatement'
+      || node.type === 'IfStatement'
+    ) {
       return
     }
 
